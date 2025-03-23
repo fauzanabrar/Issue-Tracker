@@ -1,6 +1,15 @@
 "use client";
 import { Button, TextArea, TextField } from "@radix-ui/themes";
-import React from "react";
+import dynamic from "next/dynamic";
+import "easymde/dist/easymde.min.css";
+
+const MdeEditor = dynamic(
+  () => import("react-simplemde-editor").then((mod) => mod.default),
+  {
+    ssr: false,
+    loading: () => <TextArea placeholder="Description" className="h-72" />,
+  }
+);
 
 const NewIssuePage = () => {
   return (
@@ -8,7 +17,8 @@ const NewIssuePage = () => {
       <TextField.Root>
         <TextField.Input placeholder="Title" />
       </TextField.Root>
-      <TextArea placeholder="Description" />
+      <MdeEditor placeholder="Description" />
+
       <Button>New Issue</Button>
     </div>
   );
