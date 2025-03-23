@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import Link from "next/link";
 import React from "react";
@@ -25,9 +25,9 @@ const NavBar = () => {
             key={link.href}
             href={link.href}
             className={classnames({
-              'text-zinc-900': currentPath === link.href,
-              'text-zinc-500': currentPath !== link.href,
-              'hover:text-zinc-800 transition-colors': true,
+              "text-zinc-900": currentPath === link.href,
+              "text-zinc-500": currentPath !== link.href,
+              "hover:text-zinc-800 transition-colors": true,
             })}
           >
             {link.label}
