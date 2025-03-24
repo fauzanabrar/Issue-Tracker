@@ -17,22 +17,26 @@ import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createIssueSchema } from "@/app/validationSchema";
 import { z } from "zod";
+import ErrorMessage from "@/app/components/ErrorMessage";
 
 const MdeEditor = dynamic(
   () => import("react-simplemde-editor").then((mod) => mod.default),
   {
     ssr: false,
     loading: () => <TextArea placeholder="Description" className="h-72" />,
-  }
+  },
 );
 
 type IssueForm = z.infer<typeof createIssueSchema>;
 
 const NewIssuePage = () => {
   const router = useRouter();
-  const { register, control, handleSubmit, formState: {
-    errors
-  } } = useForm<IssueForm>({
+  const {
+    register,
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<IssueForm>({
     resolver: zodResolver(createIssueSchema),
   });
   const [error, setError] = useState("");
@@ -58,7 +62,7 @@ const NewIssuePage = () => {
         <TextField.Root>
           <TextField.Input placeholder="Title" {...register("title")} />
         </TextField.Root>
-        {errors.title && <Text color="red" as="p">{errors.title.message}</Text>}
+        <ErrorMessage>{errors.title?.message}</ErrorMessage>
         <Controller
           name="description"
           control={control}
@@ -67,7 +71,7 @@ const NewIssuePage = () => {
             // <SimpleMdeReact placeholder="description" {...field} />
           )}
         />
-        {errors.description && <Text color="red" as="p">{errors.description.message}</Text>}
+        <ErrorMessage>{errors.description?.message}</ErrorMessage>
 
         {/* <MdeEditor placeholder="Description" /> */}
 
